@@ -1,6 +1,7 @@
 //Selectors
 const todoInput = document.querySelector('.todo-input');
 const todoDate = document.querySelector('.todo-date')
+todoDate.value = new Date().toISOString().slice(0, 10)
 const todoButton = document.querySelector('.todo-button');
 const todoList = document.querySelector('.todo-list');
 const filterOption = document.querySelector('.filter-todo');
@@ -29,7 +30,6 @@ function addTodo(event) {
     const newDate = document.createElement('li');
     newDate.innerText = todoDate.value;
     newDate.contentEditable = 'true'
-    //console.log(newTodo)
     //newTodo.setAttribute('contentediable', 'true') unnecessary
     todoDiv.appendChild(newTodo);
     todoDiv.appendChild(newDate);
@@ -136,13 +136,15 @@ function saveLocalTodos(todo) {
 
 function getTodos() {
     let todos;
-    if (localStorage.getItem('todos') === null) {
+    let todoItem = localStorage.getItem('todos')
+
+    if ( todoItem === null) {
         todos = [];
     } else {
-        todos = JSON.parse(localStorage.getItem('todos'));
+        todos = JSON.parse(todoItem)
     }
 
-    todos.forEach(function(todo) {
+    todos.forEach(todo => {
 
         //Todo DIV
         const todoDiv = document.createElement("div");
@@ -179,7 +181,7 @@ function removeLocalTodos(todo) {
     } else {
         todos = JSON.parse(localStorage.getItem('todos'));
     }
-    const todoIndex = todo.children[0].innerText;
+    const todoIndex = todo.children[0].innerText; // What is this?
     todos.splice(todos.indexOf(todoIndex), 1);
     localStorage.setItem("todos", JSON.stringify(todos));
 
